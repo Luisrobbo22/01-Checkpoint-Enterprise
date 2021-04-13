@@ -15,14 +15,16 @@ public class GeneroDaoTeste {
 	public static final Logger log = LoggerFactory.logger(UsuarioDaoTeste.class);
 
     public static void main(String[] args) {
+        log.info("[GeneroDaoTeste] - Instanciando um entity manager");
+
         EntityManager em =
                 EntityManagerFactorySingleton.getInstance().createEntityManager();
 
         GeneroDao dao = new GeneroDaoImpl(em);
 
         Genero genero = new Genero("Masculino");
-        
-        System.out.println("Iniciando cadastro");
+
+        log.info("[GeneroDaoTeste] - Instanciando Cadastro");
 
         try {
             dao.create(genero);
@@ -31,8 +33,8 @@ public class GeneroDaoTeste {
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
-        
-        System.out.println("Inicio leitura");
+
+        log.info("[GeneroDaoTeste] - Instanciando Leitura");
         try {
         	genero = dao.read(1);
             System.out.println(genero.getDescricao() );
@@ -40,8 +42,8 @@ public class GeneroDaoTeste {
             System.out.println("Genero nao encontrado!");
         }
 
-        System.out.println("Inicio atualizacao");
-        genero = new Genero("Feminino");	        
+        log.info("[GeneroDaoTeste] - Instanciando Atualizacao");
+        genero = new Genero("Feminino");
         try {
             dao.update(genero);
             dao.commit();
@@ -50,7 +52,7 @@ public class GeneroDaoTeste {
             System.out.println(e.getMessage());
         }
 
-        System.out.println("Inicio delete");
+        log.info("[GeneroDaoTeste] - Instanciando Delete");
         try {
             dao.delete(1);
             dao.commit();
@@ -58,6 +60,7 @@ public class GeneroDaoTeste {
             System.out.println(e.getMessage());
         }
 
+        log.info("[GeneroDaoTeste] - Fechando Conexao");
         //Fechar
         em.close();
         EntityManagerFactorySingleton.getInstance().close();

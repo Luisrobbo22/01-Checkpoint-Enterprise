@@ -16,47 +16,53 @@ public class UsuarioDaoTeste {
     public static final Logger log = LoggerFactory.logger(UsuarioDaoTeste.class);
 
     public static void main(String[] args) {
+        log.info("[UsuarioDaoTeste] - Instanciando um entity manager");
+
         EntityManager em =
                 EntityManagerFactorySingleton.getInstance().createEntityManager();
 
         UsuarioDao dao = new UsuarioDaoImpl(em);
 
-        Usuario usuario = new Usuario("Luis","luis@gmail.com", "senha", Calendar.getInstance(), "12365023", "40650840560");
+        Usuario usuario = new Usuario("Luis", "luis@gmail.com", "senha", Calendar.getInstance(), "12365023", "40650840560");
 
+        log.info("[UsuarioDaoTeste] - Instanciando Cadastro");
 
         try {
             dao.create(usuario);
             dao.commit();
             System.out.println("usuario registrado!");
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            log.error(e.getMessage());
         }
 
-
+        log.info("[UsuarioDaoTeste] - Instanciando Leitura");
         try {
             usuario = dao.read(1);
-            System.out.println(usuario.getNome() );
+            System.out.println(usuario.getNome());
         } catch (EntityNotFoundException e) {
-            System.out.println("Aluno nÃ£o encontrado!");
+            log.error("Usuario nao encontrado! " + e.getMessage());
         }
 
-        usuario = new Usuario(1, "Felipe","Felipe@gmail.com", "senha2", Calendar.getInstance(), "12365023", "40650840560", null, null, null);
+        log.info("[UsuarioDaoTeste] - Instanciando Atualizacao");
+        usuario = new Usuario(1, "Felipe", "Felipe@gmail.com", "senha2", Calendar.getInstance(), "12365023", "40650840560", null, null, null);
         try {
             dao.update(usuario);
             dao.commit();
             System.out.println("Aluno atualizado!");
         } catch (CommitException e) {
-            System.out.println(e.getMessage());
+            log.error(e.getMessage());
         }
 
+
+        log.info("[UsuarioDaoTeste] - Instanciando Delete");
         try {
             dao.delete(1);
             dao.commit();
         } catch (EntityNotFoundException | CommitException e) {
-            System.out.println(e.getMessage());
+            log.error(e.getMessage());
         }
 
-        //Fechar
+        log.info("[UsuarioDaoTeste] - Fechando Conexao");
         em.close();
         EntityManagerFactorySingleton.getInstance().close();
 
