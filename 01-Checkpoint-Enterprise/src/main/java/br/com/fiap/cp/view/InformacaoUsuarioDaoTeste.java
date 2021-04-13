@@ -19,45 +19,20 @@ public class InformacaoUsuarioDaoTeste {
 
     public static void main(String[] args) {
         log.info("[InformacaoUsuarioDaoTeste] - Instanciando um entity manager");
+
         EntityManager em =
                 EntityManagerFactorySingleton.getInstance().createEntityManager();
 
         InformacaoUsuarioDao dao = new InformacaoUsuarioDaoImpl(em);
 
         log.info("[InformacaoUsuarioDaoTeste] - Cadastrando uma informacao do usuario");
-        // Cadastrar
-        EstadoAndInfoUsuarioPk inforUsuarioPK = new EstadoAndInfoUsuarioPk(1, 1);
-        InformacaoUsuario informacaoUsuario = new InformacaoUsuario(inforUsuarioPK, Calendar.getInstance(), 1.81, 91, (91 / (1.81 * 1.81)));
+        //EstadoAndInfoUsuarioPk inforUsuarioPK = new EstadoAndInfoUsuarioPk(1, 1);
+        //InformacaoUsuario informacaoUsuario = new InformacaoUsuario(inforUsuarioPK, Calendar.getInstance(), 1.81, 91, (91 / (1.81 * 1.81)));
 
 
-//        try {
-//            dao.create(informacaoUsuario);
-//            dao.commit();
-//        } catch (CommitException e) {
-//            System.out.println(e.getMessage());
-//        }
-
-//        // Pesquisar e exibir os dados
-//        try {
-//            informacaoUsuario = dao.read(informacaoUsuario.getInforUsuarioPK().getIdUsuario());
-//            System.out.println(informacaoUsuario.getAltura());
-//
-//        } catch (EntityNotFoundException e) {
-//            log.error(e.getMessage());
-//        }
 
 
         // Atualizar
-        informacaoUsuario = new InformacaoUsuario(inforUsuarioPK, Calendar.getInstance(), 1.85, 90.0, 24.9);
-
-
-        try {
-            dao.update(informacaoUsuario);
-            dao.commit();
-            log.info("[InformacaoUsuarioDaoTeste] - Informacao do usuario atualizada");
-        } catch (CommitException e) {
-            log.error(e.getMessage());
-        }
 
 
         // Remover

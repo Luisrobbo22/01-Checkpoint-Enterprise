@@ -3,20 +3,28 @@ package main.java.br.com.fiap.cp.entity;
 import main.java.br.com.fiap.cp.entity.pk.EstadoAndInfoUsuarioPk;
 import org.hibernate.annotations.CreationTimestamp;
 
-import javax.persistence.Column;
-import javax.persistence.EmbeddedId;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Calendar;
 
 @Entity
 @Table(name = "LFL_TB_USUARIO_INFO")
+@SequenceGenerator(name = "USER_INFO", sequenceName = "SQ_TB_INFORMACAO_USUARIO", allocationSize = 1)
 public class InformacaoUsuario implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    @EmbeddedId
-    private EstadoAndInfoUsuarioPk inforUsuarioPK;
+    @Id
+    @Column(name = "ID_USUARIO_INFO")
+    @GeneratedValue(generator = "USER_INFO", strategy = GenerationType.SEQUENCE)
+    private Integer id;
+
+    @Column(name = "NR_ATUALIZACAO", nullable = false)
+    private Integer numeroAtualizacao;
+
+    @OneToOne
+    @JoinColumn(name = "ID_USUARIO", referencedColumnName = "ID_USUARIO")
+    private Usuario usuario;
+
 
     @CreationTimestamp
     @Column(name = "DT_ATUALIZACAO")
@@ -31,23 +39,41 @@ public class InformacaoUsuario implements Serializable {
     @Column(name = "NR_IMC")
     private double imc;
 
-    public InformacaoUsuario() {
-    }
-
-    public InformacaoUsuario(EstadoAndInfoUsuarioPk inforUsuarioPK, Calendar dataAtualizacao, double altura, double peso, double imc) {
-        this.inforUsuarioPK = inforUsuarioPK;
+    public InformacaoUsuario(Integer id, Integer numeroAtualizacao, Usuario usuario, Calendar dataAtualizacao, double altura, double peso, double imc) {
+        this.id = id;
+        this.numeroAtualizacao = numeroAtualizacao;
+        this.usuario = usuario;
         this.dataAtualizacao = dataAtualizacao;
         this.altura = altura;
         this.peso = peso;
         this.imc = imc;
     }
 
-    public EstadoAndInfoUsuarioPk getInforUsuarioPK() {
-        return inforUsuarioPK;
+    public InformacaoUsuario() {
     }
 
-    public void setInforUsuarioPK(EstadoAndInfoUsuarioPk inforUsuarioPK) {
-        this.inforUsuarioPK = inforUsuarioPK;
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public Integer getNumeroAtualizacao() {
+        return numeroAtualizacao;
+    }
+
+    public void setNumeroAtualizacao(Integer numeroAtualizacao) {
+        this.numeroAtualizacao = numeroAtualizacao;
+    }
+
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
     }
 
     public Calendar getDataAtualizacao() {

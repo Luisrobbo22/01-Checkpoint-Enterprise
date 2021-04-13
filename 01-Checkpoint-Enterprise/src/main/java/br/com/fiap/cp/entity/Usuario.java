@@ -38,13 +38,8 @@ public class Usuario implements Serializable {
     @Column(name = "NR_CPF")
     private String cpf;
 
-    private Estado estado;
-
-    private InformacaoUsuario informacaoUsuario;
-
     @OneToOne(cascade = CascadeType.ALL)
-    @MapsId("ID")
-    @JoinColumn(name = "ID", referencedColumnName = "ID_GENERO")
+    @JoinColumn(name = "ID_GENERO", referencedColumnName = "ID_GENERO")
     private Genero genero;
 
     public Usuario(String nome, String email, String senha, Calendar dataNascimento, String rg, String cpf) {
@@ -56,7 +51,7 @@ public class Usuario implements Serializable {
         this.cpf = cpf;
     }
 
-    public Usuario(Integer id, String nome, String email, String senha, Calendar dataNascimento, String rg, String cpf, Estado estado, InformacaoUsuario informacaoUsuario, Genero genero) {
+    public Usuario(Integer id, String nome, String email, String senha, Calendar dataNascimento, String rg, String cpf, Genero genero) {
         this.id = id;
         this.nome = nome;
         this.email = email;
@@ -64,8 +59,6 @@ public class Usuario implements Serializable {
         this.dataNascimento = dataNascimento;
         this.rg = rg;
         this.cpf = cpf;
-        this.setEstado(estado);
-        this.setInformacaoUsuario(informacaoUsuario);
         this.setGenero(genero);
     }
 
@@ -140,22 +133,6 @@ public class Usuario implements Serializable {
     @Override
     public int hashCode() {
         return Objects.hash(getId());
-    }
-
-    public Estado getEstado() {
-        return estado;
-    }
-
-    public void setEstado(Estado estado) {
-        this.estado = estado;
-    }
-
-    public InformacaoUsuario getInformacaoUsuario() {
-        return informacaoUsuario;
-    }
-
-    public void setInformacaoUsuario(InformacaoUsuario informacaoUsuario) {
-        this.informacaoUsuario = informacaoUsuario;
     }
 
     public Genero getGenero() {

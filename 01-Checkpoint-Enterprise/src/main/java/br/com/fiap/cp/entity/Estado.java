@@ -13,8 +13,17 @@ import java.util.Calendar;
 public class Estado implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    @EmbeddedId
-    private EstadoAndInfoUsuarioPk estadoPk;
+    @Id
+    @Column(name = "ID_ESTADO", nullable = false)
+    @GeneratedValue(generator = "ESTADO", strategy = GenerationType.SEQUENCE)
+    private Integer id;
+
+    @Column(name = "NR_ATUALIZACAO",nullable = false)
+    private Integer numeroAtualizacao;
+
+    @OneToOne
+    @JoinColumn(name = "ID_USUARIO", referencedColumnName = "ID_USUARIO")
+    private Usuario usuario;
 
     @CreationTimestamp
     @Column(name = "DT_ATUALIZACAO", nullable = false)
@@ -29,27 +38,41 @@ public class Estado implements Serializable {
     @Column(name = "MD_TEMPERATURA", length = 10)
     private String temperatura;
 
-    private Usuario usuario;
-
-    public Estado(EstadoAndInfoUsuarioPk estadoPk, Calendar dataAtualizacao, String pressaoArterial,
-                  String monitoramentoCardiaco, String temperatura, Usuario usuario) {
-        this.estadoPk = estadoPk;
+    public Estado(Integer id, Integer numeroAtualizacao, Usuario usuario, Calendar dataAtualizacao, String pressaoArterial, String monitoramentoCardiaco, String temperatura) {
+        this.id = id;
+        this.numeroAtualizacao = numeroAtualizacao;
+        this.usuario = usuario;
         this.dataAtualizacao = dataAtualizacao;
         this.pressaoArterial = pressaoArterial;
         this.monitoramentoCardiaco = monitoramentoCardiaco;
         this.temperatura = temperatura;
-        this.usuario = usuario;
     }
 
     public Estado() {
     }
 
-    public EstadoAndInfoUsuarioPk getEstadoPk() {
-        return estadoPk;
+    public Integer getId() {
+        return id;
     }
 
-    public void setEstadoPk(EstadoAndInfoUsuarioPk estadoPk) {
-        this.estadoPk = estadoPk;
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public Integer getNumeroAtualizacao() {
+        return numeroAtualizacao;
+    }
+
+    public void setNumeroAtualizacao(Integer numeroAtualizacao) {
+        this.numeroAtualizacao = numeroAtualizacao;
+    }
+
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
     }
 
     public Calendar getDataAtualizacao() {
@@ -83,13 +106,4 @@ public class Estado implements Serializable {
     public void setTemperatura(String temperatura) {
         this.temperatura = temperatura;
     }
-
-    public Usuario getUsuario() {
-        return usuario;
-    }
-
-    public void setUsuario(Usuario usuario) {
-        this.usuario = usuario;
-    }
-
 }

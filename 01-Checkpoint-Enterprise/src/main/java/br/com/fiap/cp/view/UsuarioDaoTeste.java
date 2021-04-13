@@ -44,7 +44,7 @@ public class UsuarioDaoTeste {
         }
 
         log.info("[UsuarioDaoTeste] - Instanciando Atualizacao");
-        usuario = new Usuario(1, "Felipe", "Felipe@gmail.com", "senha2", Calendar.getInstance(), "12365023", "40650840560", null, null, null);
+        usuario = new Usuario(1, "Felipe", "Felipe@gmail.com", "senha2", Calendar.getInstance(), "12365023", "40650840560", null);
         try {
             dao.update(usuario);
             dao.commit();

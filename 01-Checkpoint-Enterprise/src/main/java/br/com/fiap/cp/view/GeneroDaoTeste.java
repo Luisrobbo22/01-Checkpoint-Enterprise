@@ -61,7 +61,6 @@ public class GeneroDaoTeste {
         }
 
         log.info("[GeneroDaoTeste] - Fechando Conexao");
-        //Fechar
         em.close();
         EntityManagerFactorySingleton.getInstance().close();
     }		    
