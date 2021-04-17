@@ -1,6 +1,5 @@
 package main.java.br.com.fiap.cp.entity;
 
-import main.java.br.com.fiap.cp.entity.pk.EstadoAndInfoUsuarioPk;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
@@ -21,7 +20,7 @@ public class Estado implements Serializable {
     @Column(name = "NR_ATUALIZACAO",nullable = false)
     private Integer numeroAtualizacao;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "ID_USUARIO", referencedColumnName = "ID_USUARIO")
     private Usuario usuario;
 
@@ -38,14 +37,13 @@ public class Estado implements Serializable {
     @Column(name = "MD_TEMPERATURA", length = 10)
     private String temperatura;
 
-    public Estado(Integer id, Integer numeroAtualizacao, Usuario usuario, Calendar dataAtualizacao, String pressaoArterial, String monitoramentoCardiaco, String temperatura) {
-        this.id = id;
+    public Estado(Integer numeroAtualizacao, Calendar dataAtualizacao, String pressaoArterial, String monitoramentoCardiaco, String temperatura, Usuario usuario) {
         this.numeroAtualizacao = numeroAtualizacao;
-        this.usuario = usuario;
         this.dataAtualizacao = dataAtualizacao;
         this.pressaoArterial = pressaoArterial;
         this.monitoramentoCardiaco = monitoramentoCardiaco;
         this.temperatura = temperatura;
+        this.usuario = usuario;
     }
 
     public Estado() {

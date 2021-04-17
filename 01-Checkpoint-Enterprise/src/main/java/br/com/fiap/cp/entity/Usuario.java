@@ -4,8 +4,9 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Objects;
+import java.util.List;
 
 @Entity
 @Table(name = "LFL_TB_USUARIO")
@@ -25,10 +26,10 @@ public class Usuario implements Serializable {
     @Column(name = "DS_EMAIL", nullable = false)
     private String email;
 
-    @JsonIgnore
     @Column(name = "DS_SENHA", nullable = false)
     private String senha;
 
+    @Temporal(TemporalType.DATE)
     @Column(name = "DT_NASCIMENTO")
     private Calendar dataNascimento;
 
@@ -42,6 +43,34 @@ public class Usuario implements Serializable {
     @JoinColumn(name = "ID_GENERO", referencedColumnName = "ID_GENERO")
     private Genero genero;
 
+    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
+    private List<Estado> estados;
+
+    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
+    private List<InformacaoUsuario> infoUsers;
+
+    public void addEstados(Estado estado) {
+        if (estados == null)
+            estados = new ArrayList<>();
+
+        estados.add(estado);
+
+        estado.setUsuario(this);
+    }
+
+    public void addInformacaoUsuario(InformacaoUsuario informacaoUsuario) {
+        if (infoUsers == null)
+            infoUsers = new ArrayList<>();
+
+        infoUsers.add(informacaoUsuario);
+
+        informacaoUsuario.setUsuario(this);
+    }
+
+
+    public Usuario() {
+    }
+
     public Usuario(String nome, String email, String senha, Calendar dataNascimento, String rg, String cpf) {
         this.nome = nome;
         this.email = email;
@@ -51,19 +80,6 @@ public class Usuario implements Serializable {
         this.cpf = cpf;
     }
 
-    public Usuario(Integer id, String nome, String email, String senha, Calendar dataNascimento, String rg, String cpf, Genero genero) {
-        this.id = id;
-        this.nome = nome;
-        this.email = email;
-        this.senha = senha;
-        this.dataNascimento = dataNascimento;
-        this.rg = rg;
-        this.cpf = cpf;
-        this.setGenero(genero);
-    }
-
-    public Usuario() {
-    }
 
     public Integer getId() {
         return id;
@@ -121,25 +137,27 @@ public class Usuario implements Serializable {
         this.cpf = cpf;
     }
 
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Usuario)) return false;
-        Usuario usuario = (Usuario) o;
-        return getId().equals(usuario.getId());
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(getId());
-    }
-
     public Genero getGenero() {
         return genero;
     }
 
     public void setGenero(Genero genero) {
         this.genero = genero;
+    }
+
+    public List<Estado> getEstados() {
+        return estados;
+    }
+
+    public void setEstados(List<Estado> estados) {
+        this.estados = estados;
+    }
+
+    public List<InformacaoUsuario> getInfoUsers() {
+        return infoUsers;
+    }
+
+    public void setInfoUsers(List<InformacaoUsuario> infoUsers) {
+        this.infoUsers = infoUsers;
     }
 }

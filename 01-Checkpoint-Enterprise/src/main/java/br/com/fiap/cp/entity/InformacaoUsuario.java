@@ -1,6 +1,5 @@
 package main.java.br.com.fiap.cp.entity;
 
-import main.java.br.com.fiap.cp.entity.pk.EstadoAndInfoUsuarioPk;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
@@ -21,10 +20,9 @@ public class InformacaoUsuario implements Serializable {
     @Column(name = "NR_ATUALIZACAO", nullable = false)
     private Integer numeroAtualizacao;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "ID_USUARIO", referencedColumnName = "ID_USUARIO")
     private Usuario usuario;
-
 
     @CreationTimestamp
     @Column(name = "DT_ATUALIZACAO")
@@ -39,14 +37,14 @@ public class InformacaoUsuario implements Serializable {
     @Column(name = "NR_IMC")
     private double imc;
 
-    public InformacaoUsuario(Integer id, Integer numeroAtualizacao, Usuario usuario, Calendar dataAtualizacao, double altura, double peso, double imc) {
+    public InformacaoUsuario(Integer numeroAtualizacao, Calendar dataAtualizacao, double altura, double peso, Usuario usuario) {
         this.id = id;
         this.numeroAtualizacao = numeroAtualizacao;
-        this.usuario = usuario;
         this.dataAtualizacao = dataAtualizacao;
         this.altura = altura;
         this.peso = peso;
-        this.imc = imc;
+        this.usuario = usuario;
+        getImc();
     }
 
     public InformacaoUsuario() {
@@ -101,6 +99,8 @@ public class InformacaoUsuario implements Serializable {
     }
 
     public double getImc() {
+        this.imc = this.peso / (this.altura * this.altura);
+
         return imc;
     }
 
